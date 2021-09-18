@@ -2,7 +2,7 @@
 
 HTTP request ser ut
 
-##Repeat av lecture 2
+## Repeat av lecture 2
 
 * [ ] Maven
 * [ ] Github Actions
