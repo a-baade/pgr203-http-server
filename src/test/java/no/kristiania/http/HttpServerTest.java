@@ -15,4 +15,11 @@ public class HttpServerTest {
         assertEquals(404,client.getStatusCode());
     }
 
+    @Test
+    void shouldRespondWithRequestTargetIn404() throws IOException {
+        HttpServer server = new HttpServer(10002);
+        HttpClient client = new HttpClient("localHost",10002,"/non-existing");
+        assertEquals("File not found: /non-existing",client.getMessageBody());
+    }
+
 }

@@ -11,13 +11,21 @@ public class HttpServer {
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
 
-    new Thread(this::handleClients).start();
+        new Thread(this::handleClients).start();
     }
 
     private void handleClients() {
         try {
             Socket clientSocket = serverSocket.accept();
-            String response = "HTTP/1.1 404 Not found\r\nContent-Length: 0\r\n\r\n";
+
+            String[] requestLine = HttpClient.readLine(clientSocket).split(" ");
+            String requestTarget = requestLine[1];
+            String responseText = "File not found: " + requestTarget;
+
+            String response = "HTTP/1.1 404 Not found\r\n" +
+                    "Content-Length: " + responseText.length() +"\r\n" +
+                    "\r\n" +
+                    responseText;
             clientSocket.getOutputStream().write(response.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
@@ -28,15 +36,6 @@ public class HttpServer {
         ServerSocket serverSocket = new ServerSocket(8080);
 
         Socket clientSocket = serverSocket.accept();
-
-        String requestLine = HttpClient.readLine(clientSocket);
-
-        System.out.println(requestLine);
-
-        String headerLine;
-        while (!(headerLine = HttpClient.readLine(clientSocket)).isBlank()) {
-            System.out.println(headerLine);
-        }
 
         String responseMessage = "<h1> Hello World <h1>";
         String contentType = "text/html";
