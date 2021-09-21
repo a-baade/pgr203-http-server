@@ -2,24 +2,28 @@
 
 HTTP request ser ut
 
-## Repeat av lecture 2
+## GitHub
 
 * [x] Maven
 * [x] Github Actions
-* [ ] Working branch
-* [ ] Pull request
+* [x] Working branch
+* [x] Pull request
+* [x] Test report
 
-## Repeat av lecture 3: Socket, HTTP
+## Socket, HTTP
 
 * [x] Socket connects server
 * [x] Status code
 * [x] Header fields
-* [ ] Content-length
-* [ ] Message body
+* [x] Content-length
+* [x] Message body
 
-## TODAY: no.kristiania.http.HttpServer
-* [ ] no.kristiania.http.HttpServer should respond with 404
-* [ ] no.kristiania.http.HttpServer should include request target in 404
+## HttpServer
+* [x] HttpServer should respond with 404
+* [ ] HttpServer should include request target in 404
 * [ ] Return a static content for /hello
 * [ ] Return HTML file from disk
 * [ ] Content-type
+* [ ] Return <form>
+* [ ] Process GET request from form
+* [ ] Process Post request from form
