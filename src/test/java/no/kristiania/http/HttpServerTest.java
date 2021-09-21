@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HttpServerTest {
@@ -26,7 +27,10 @@ public class HttpServerTest {
     void shouldRespondWith200ForKnownRequestTarget() throws IOException {
         HttpServer server = new HttpServer(10003);
         HttpClient client = new HttpClient("localHost",server.getPort(), "/hello");
-        assertEquals(200, client.getStatusCode());
-        assertEquals("Hello World", client.getMessageBody());
+        assertAll(
+                () -> assertEquals(200, client.getStatusCode()),
+                () -> assertEquals("Hello World", client.getMessageBody())
+        );
+
     }
 }
