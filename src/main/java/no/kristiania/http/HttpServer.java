@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class HttpServer {
 
@@ -27,10 +28,9 @@ public class HttpServer {
 
             if (requestTarget.equals("/hello")) {
                 String responseText = "<p>Hello World</p>";
-
                 String response = "HTTP/1.1 200 OK\r\n" +
                         "Content-Length: " + responseText.length() +"\r\n" +
-                        "Content-Type: text/html\r\n" +
+                        "Content-Type: text/html" +"\r\n" +
                         "\r\n" +
                         responseText;
                 clientSocket.getOutputStream().write(response.getBytes());
@@ -38,9 +38,13 @@ public class HttpServer {
                 if (rootDirectory != null && Files.exists(rootDirectory.resolve(requestTarget.substring(1)))) {
                     String responseText = Files.readString(rootDirectory.resolve(requestTarget.substring(1)));
 
+                    String contentType = "text/plain";
+                    if(requestTarget.endsWith(".html")) {
+                        contentType = "text/html";
+                    }
                     String response = "HTTP/1.1 200 OK\r\n" +
                             "Content-Length: " + responseText.length() +"\r\n" +
-                            "Content-Type: text/html\r\n" +
+                            "Content-Type: "+ contentType + "\r\n" +
                             "\r\n" +
                             responseText;
                     clientSocket.getOutputStream().write(response.getBytes());
@@ -62,7 +66,8 @@ public class HttpServer {
     }
 
     public static void main(String[] args) throws IOException {
-        new HttpServer(1984);
+        HttpServer httpServer = new HttpServer(1984);
+        httpServer.setRoot(Paths.get("."));
     }
 
     public int getPort() {
