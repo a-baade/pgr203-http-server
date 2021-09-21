@@ -44,21 +44,7 @@ public class HttpServer {
     }
 
     public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8080);
-
-        Socket clientSocket = serverSocket.accept();
-
-        String responseMessage = "<h1> Hello World <h1>";
-        String contentType = "text/html";
-
-        String response =  "Http/1.1 200 OK\r\n" +
-                "Content-Length: " + responseMessage.getBytes().length + "r\n" +
-                "Content-Type: " + contentType + "\r\n" +
-                "Connection: close\r\n" +
-                "\r\n" +
-                responseMessage;
-
-        clientSocket.getOutputStream().write((response).getBytes());
+        new HttpServer(1984);
     }
 
     public int getPort() {
