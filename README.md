@@ -21,7 +21,7 @@ HTTP request ser ut
 ## HttpServer
 * [x] HttpServer should respond with 404
 * [x] HttpServer should include request target in 404
-* [ ] Return a static content for /hello
+* [x] Return a static content for /hello
 * [ ] Return HTML file from disk
 * [ ] Content-type
 * [ ] Return <form>

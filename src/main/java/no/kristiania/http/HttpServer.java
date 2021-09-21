@@ -22,10 +22,11 @@ public class HttpServer {
             String requestTarget = requestLine[1];
 
             if (requestTarget.equals("/hello")) {
-                String responseText = "Hello World";
+                String responseText = "<p>Hello World</p>";
 
                 String response = "HTTP/1.1 200 OK\r\n" +
                         "Content-Length: " + responseText.length() +"\r\n" +
+                        "Content-Type: text/html\r\n" +
                         "\r\n" +
                         responseText;
                 clientSocket.getOutputStream().write(response.getBytes());
