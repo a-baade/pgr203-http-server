@@ -19,11 +19,21 @@ HTTP request ser ut
 * [x] Message body
 
 ## HttpServer
+
 * [x] HttpServer should respond with 404
 * [x] HttpServer should include request target in 404
 * [x] Return a static content for /hello
-* [ ] Return HTML file from disk
-* [ ] Content-type
-* [ ] Return <form>
-* [ ] Process GET request from form
-* [ ] Process Post request from form
+* [x] Return HTML file from disk
+* [x] Content-type
+* [x] Return <form>
+* [x] Process GET request from form
+
+## Lecture 6:
+
+* [ ] Styling
+* [ ] Handle more than one request
+    * [ ] Feilhåndtering 
+* [ ] Refactor -> HttpMessage class
+* [ ] Process POST request from form 
+  * [ ] URL encoding
+* [ ] Make executable JAR
