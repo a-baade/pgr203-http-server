@@ -49,18 +49,37 @@ public class HttpServer {
 
         if (fileTarget.equals("/hello")) {
             String yourName = "World";
-            if(query != null) {
+            if (query != null) {
                 yourName = query.split("=")[1];
             }
             String responseText = "<p>Hello " + yourName + "</p>";
 
             String response = "HTTP/1.1 200 OK\r\n" +
-                    "Content-Length: " + responseText.length() +"\r\n" +
-                    "Content-Type: text/html" +"\r\n" +
+                    "Content-Length: " + responseText.length() + "\r\n" +
+                    "Content-Type: text/html" + "\r\n" +
                     "Connection: close\r\n" +
                     "\r\n" +
                     responseText;
             clientSocket.getOutputStream().write(response.getBytes());
+
+        }else if (fileTarget.equals("/api/roleOptions")) {
+
+            String responseText = "";
+
+            int value = 1;
+            for (String role : roles) {
+                responseText +="<option value=" + (value++) + ">" + role + "</option>";
+            }
+
+
+            String response = "HTTP/1.1 200 OK\r\n" +
+                    "Content-Length: " + responseText.length() + "\r\n" +
+                    "Content-Type: text/html" + "\r\n" +
+                    "Connection: close\r\n" +
+                    "\r\n" +
+                    responseText;
+            clientSocket.getOutputStream().write(response.getBytes());
+
         } else {
             if (rootDirectory != null && Files.exists(rootDirectory.resolve(fileTarget.substring(1)))) {
                 String responseText = Files.readString(rootDirectory.resolve(fileTarget.substring(1)));
