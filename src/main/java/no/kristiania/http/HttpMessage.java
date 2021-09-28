@@ -6,14 +6,17 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class HttpMessage {
-    public String startLine;
-    public final HashMap<String, String> headerFields = new HashMap<>();
-    public String messageBody;
+    public static String startLine;
+    private final HashMap<String, String> headerFields = new HashMap<>();
+    private String messageBody;
 
     public HttpMessage(Socket socket) throws IOException {
         startLine = HttpMessage.readLine(socket);
         readHeaders(socket);
-        messageBody = HttpMessage.readBytes(socket, getContentLength());
+        if (headerFields.containsKey("Content-Length")) {
+            messageBody = HttpMessage.readBytes(socket, getContentLength());
+
+        }
     }
 
     public int getContentLength() {
@@ -58,4 +61,11 @@ public class HttpMessage {
     }
 
 
+    public String getMessageBody() {
+        return messageBody;
+    }
+
+    public void setMessageBody(String messageBody) {
+        this.messageBody = messageBody;
+    }
 }

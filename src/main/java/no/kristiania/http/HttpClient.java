@@ -28,11 +28,11 @@ public class HttpClient {
     }
 
     public String getHeader(String headerName) {
-        return httpMessage.headerFields.get(headerName);
+        return httpMessage.getHeader(headerName);
     }
 
     public String getMessageBody() {
-        return httpMessage.messageBody;
+        return httpMessage.getMessageBody();
     }
 
     public static void main(String[] args) throws IOException {
