@@ -30,8 +30,8 @@ HTTP request ser ut
 
 ## Lecture 6:
 
-* [ ] Styling
-* [ ] Handle more than one request
+* [x] Styling
+* [x] Handle more than one request
     * [ ] Feilhåndtering 
 * [ ] Refactor -> HttpMessage class
 * [ ] Process POST request from form 
