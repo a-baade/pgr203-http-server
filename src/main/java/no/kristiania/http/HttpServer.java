@@ -80,7 +80,6 @@ public class HttpServer {
                 return;
             }
 
-
             String responseText = "File not found: " + requestTarget;
 
             String response = "HTTP/1.1 404 Not found\r\n" +
@@ -103,6 +102,7 @@ public class HttpServer {
 
     public static void main(String[] args) throws IOException {
         HttpServer httpServer = new HttpServer(1984);
+        httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
         httpServer.setRoot(Paths.get("."));
     }
 
