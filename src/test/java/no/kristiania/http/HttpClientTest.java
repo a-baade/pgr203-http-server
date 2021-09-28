@@ -35,4 +35,5 @@ public class HttpClientTest {
                 client.getMessageBody().startsWith("<!DOCTYPE html>\n<html"),
                 "should be html: " + client.getMessageBody());
     }
+
 }
