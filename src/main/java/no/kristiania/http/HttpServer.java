@@ -1,5 +1,11 @@
 package no.kristiania.http;
 
+import no.kristiania.person.Person;
+import no.kristiania.person.RoleDao;
+import org.flywaydb.core.Flyway;
+import org.postgresql.ds.PGSimpleDataSource;
+
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -17,6 +23,7 @@ public class HttpServer {
     private Path rootDirectory;
     private List <String> roles = new ArrayList<>();
     private List<Person> people = new ArrayList<>();
+    private RoleDao roleDao;
 
     public HttpServer(int serverPort) throws IOException {
         serverSocket = new ServerSocket(serverPort);
@@ -126,10 +133,18 @@ public class HttpServer {
 
     public static void main(String[] args) throws IOException {
         HttpServer httpServer = new HttpServer(1984);
-        httpServer.setRoles(List.of("Student", "Teaching assistant", "Teacher"));
-        httpServer.setRoot(Paths.get("src/main/resources"));
+        httpServer.setRoleDao(new RoleDao(createDataSource()));
+        System.out.println("http://localhost:" + httpServer.getPort() + "/index.html");
     }
 
+    private static DataSource createDataSource() {
+        PGSimpleDataSource dataSource = new PGSimpleDataSource();
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/person_db");
+        dataSource.setUser("person_dbuser");
+        dataSource.setPassword("*****");
+        Flyway.configure().dataSource(dataSource).load().migrate();
+        return dataSource;
+    }
     public int getPort() {
         return serverSocket.getLocalPort();
     }
@@ -139,8 +154,8 @@ public class HttpServer {
         this.rootDirectory = rootDirectory;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRoleDao(RoleDao roleDao) {
+        this.roleDao = roleDao;
     }
 
     public List<Person> getPeople() {
