@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HttpMessage {
     public static String startLine;
@@ -17,6 +18,22 @@ public class HttpMessage {
             messageBody = HttpMessage.readBytes(socket, getContentLength());
 
         }
+    }
+
+    public HttpMessage(String startLine, String messageBody) {
+        this.startLine = startLine;
+        this.messageBody = messageBody;
+    }
+
+    public static Map<String, String> parseRequestParameters(String query) {
+        Map<String, String> queryMap = new HashMap<>();
+        for (String queryParameter : query.split("&")) {
+            int equalsPos = queryParameter.indexOf('=');
+            String parameterName = queryParameter.substring(0,equalsPos);
+            String parameterValue = queryParameter.substring(equalsPos+1);
+            queryMap.put(parameterName, parameterValue);
+        }
+        return queryMap;
     }
 
     public int getContentLength() {
@@ -67,5 +84,14 @@ public class HttpMessage {
 
     public void setMessageBody(String messageBody) {
         this.messageBody = messageBody;
+    }
+
+    public void write(Socket socket) throws IOException {
+        String response = startLine + "\r\n" +
+                "Content-Length: " + messageBody.length() + "\r\n" +
+                "Connection: close\r\n" +
+                "\r\n" +
+                messageBody;
+        socket.getOutputStream().write(response.getBytes());
     }
 }

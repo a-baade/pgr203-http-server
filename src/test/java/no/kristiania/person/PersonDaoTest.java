@@ -1,6 +1,5 @@
 package no.kristiania.person;
 
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -33,7 +32,7 @@ public class PersonDaoTest {
                 .contains(person.getId(), anotherPerson.getId());
     }
 
-    private Person examplePerson() {
+    public static Person examplePerson() {
         Person person = new Person();
         person.setFirstName(TestData.pickOne("Johannes", "Jane", "Jill", "Jacob", "James"));
         person.setLastName(TestData.pickOne("Williams", "Jones", "Jameson"));
