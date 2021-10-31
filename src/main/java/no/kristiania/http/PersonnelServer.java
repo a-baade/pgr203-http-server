@@ -4,6 +4,8 @@ import no.kristiania.person.PersonDao;
 import no.kristiania.person.RoleDao;
 import org.flywaydb.core.Flyway;
 import org.postgresql.ds.PGSimpleDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.FileReader;
@@ -11,6 +13,10 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PersonnelServer {
+
+    private static final Logger logger = LoggerFactory.getLogger(HttpServer.class);
+
+
     public static void main(String[] args) throws IOException {
         DataSource dataSource = createDataSource();
         RoleDao roleDao = new RoleDao(dataSource);
@@ -18,7 +24,8 @@ public class PersonnelServer {
         HttpServer httpServer = new HttpServer(1984);
         httpServer.addController("/api/roleOptions", new RoleOptionsController(roleDao));
         httpServer.addController("/api/newPerson", new AddPersonController(personDao));
-        System.out.println("http://localhost:" + httpServer.getPort() + "/index.html");
+        httpServer.addController("/api/people", new ListPeopleController(personDao));
+        logger.info("Starting http://localhost:{}/index.html", httpServer.getPort());
     }
 
     public static DataSource createDataSource() throws IOException {
@@ -28,7 +35,8 @@ public class PersonnelServer {
         }
 
         PGSimpleDataSource dataSource = new PGSimpleDataSource();
-        dataSource.setUrl(properties.getProperty("dataSource.url",
+        dataSource.setUrl(properties.getProperty(
+                "dataSource.url",
                 "jdbc:postgresql://localhost:5432/person_db"
         ));
         dataSource.setUser(properties.getProperty("dataSource.user", "person_dbuser"));
