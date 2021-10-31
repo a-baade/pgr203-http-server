@@ -1,4 +1,6 @@
 /.idea/
 *.iml
 target/
+/dependecy-reduced-pom.xml
+/pgr203.properties
 
